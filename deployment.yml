@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: rajesh-tomcat
-          image: sonarqube
+          image: tomcat
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 8080
