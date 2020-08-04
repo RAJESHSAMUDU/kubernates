@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rajeshRS
+spec:
+  replicas: 5
+  selector:
+    matchExpressions:
+      - {key: name, operator: In, values: [tomcat]}
+      - {key: app, operator: NotIn, values: [pro]}
+  template:
+    metadata:
+      labels:
+        name: tomcat
+        app: test
+    spec:
+      containers:
+        - name: rajesh-tomact
+          image: tomcat
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
