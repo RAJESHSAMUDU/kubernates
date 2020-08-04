@@ -6,13 +6,13 @@ spec:
   replicas: 5
   selector:
     matchExpressions:
-      - {key: name, operator: In, values: [tomcat]}
-      - {key: app, operator: NotIn, values: [pro]}
+      - {key: app, operator: In, values: [tomcat]}
+      - {key: env, operator: NotIn, values: [pro]}
   template:
     metadata:
       labels:
-        name: tomcat
-        app: test
+        app: tomcat
+        env: test
     spec:
       containers:
         - name: rajesh-tomact
