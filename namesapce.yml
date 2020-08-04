@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rajesh-tomcat
+  namespace: mavenweb
+spec:
+  replicas: 6
+  minReadySeconds: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchExpressions:
+      - {key: app, operator: In, values: [tomcat]}
+      - {key: env, operator: NotIn, values: [prod]}
+  template:
+    metadata:
+      labels:
+        app: tomcat
+        env: test
+    spec:
+      containers:
+        - name: rajesh-tomcat
+          image: tomcat
+          ports:
+          - containerPort: 8080
+      nodeSelector:
+        name: rajesh
