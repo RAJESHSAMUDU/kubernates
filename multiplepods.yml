@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - name: rajesh
+      image: nginx
+      imagePullPolicy: IfNotPresent
+      ports:
+      - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nithya
+spec:
+  containers:
+    - name: rajesh-tomcat
+      image: tomcat
+      imagePullPolicy: IfNotPresent
+      ports:
+      - containerPort: 8080
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nithya1
+spec:
+  containers:
+    - name: rajesh-sonar
+      image: sonarqube
+      imagePullPolicy: IfNotPresent
+      ports:
+      - containerPort: 9000
