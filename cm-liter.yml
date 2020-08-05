@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - name: rajesh
+      image: nginx
+      env:
+        - name: rajesh
+          valueFrom:
+            configMapKeyRef:
+              name: special-config
+              key: a
+      imagePullPolicy: IfNotPresent
+      ports:
+      - containerPort: 80
