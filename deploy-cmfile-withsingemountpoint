@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rajesh-tomcat
+spec:
+  replicas: 2
+  minReadySeconds: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchExpressions:
+      - {key: app, operator: In, values: [index]}
+      - {key: env, operator: NotIn, values: [prod]}
+  template:
+    metadata:
+      labels:
+        app: index
+        env: test
+    spec:
+      containers:
+        - name: rajesh-index
+          image: httpd
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: rajeshvolume
+              mountPath: /usr/local/apache2/htdocs/index.html
+              subPath: index.html
+      volumes:
+        - name: rajeshvolume
+          configMap:
+            name: rajesh
