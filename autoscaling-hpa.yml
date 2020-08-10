@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rajesh-nginx
+spec:
+  replicas: 2
+  minReadySeconds: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchExpressions:
+      - {key: app, operator: In, values: [index]}
+      - {key: env, operator: NotIn, values: [prod]}
+  template:
+    metadata:
+      labels:
+        app: index
+        env: test
+    spec:
+      containers:
+        - name: rajesh-index
+          image: nginx
+          resources:
+            requests:
+              memory: "5Mi"
+              cpu: "100m"
+            limits:
+              memory: "10Mi"
+              cpu: "200m"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: auto -scaling
+  namespace: landing-page
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: rajesh-nginx
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageUtilization: 60
